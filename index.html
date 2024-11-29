@@ -3,113 +3,474 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Team GSK Process Map</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Poppins:wght@400;700&family=Playfair+Display:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      /* Body Styles */
+      /* Global Font Styles */
       body {
-        background-image: url("https://i.postimg.cc/G2bKMP8d/Screenshot-242.png");
-        background-repeat: no-repeat;
-        background-size: cover; /* Make sure the background covers the entire page */
+        font-family: "Lora", serif;
+        background-color: #0f172a; /* Deep Navy Blue */
+        color: #e5e7eb; /* Light Gray for contrast */
+        line-height: 1.6;
         margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+        padding: 0;
       }
 
-      /* Container Styles */
-      .container {
-        position: relative; /* Make the container a positioning context */
+      /* Authentication Modal Styles */
+      .auth-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Transparent background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999; /* Make sure it's on top */
+        backdrop-filter: blur(5px); /* Blurring the background */
       }
 
-      /* Content Box Styles */
+      .auth-content {
+        background-color: #2d3748; /* Dark background for the modal */
+        color: #e5e7eb;
+        padding: 30px;
+        width: 300px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+      }
+
+      .auth-content h2 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+      }
+
+      .auth-content input {
+        font-family: "Poppins", sans-serif;
+        font-size: 1rem;
+        padding: 10px;
+        margin-bottom: 20px;
+        width: 80%;
+        border-radius: 5px;
+        border: 1px solid #38bdf8;
+        background-color: #1e293b;
+        color: #e5e7eb;
+      }
+
+      .auth-content button {
+        font-family: "Poppins", sans-serif;
+        padding: 10px 20px;
+        border: none;
+        background-color: #38bdf8;
+        color: #fff;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .auth-content button:hover {
+        background-color: #2563eb;
+      }
+
+      /* Main content hidden initially */
       .content {
-        background-color: rgb(85, 162, 137);
+        display: none;
+      }
+
+      /* Navbar Styling */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #1e293b; /* Dark Blue-Black */
+        padding: 15px 20px;
+        color: #e5e7eb;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #38bdf8; /* Sky Blue */
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 15px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-links li {
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-family: "Poppins", sans-serif;
+        font-size: 1rem;
+        font-weight: bold;
+        text-decoration: none;
+        color: #e5e7eb;
+        background: #2563eb; /* Blue */
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease,
+          background 0.3s ease;
+      }
+
+      .nav-button:hover {
+        background: #1d4ed8; /* Darker Blue */
+        transform: translateY(-3px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+      }
+
+      .nav-button:active {
+        transform: translateY(2px);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Heading Styling */
+      .heading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 20px;
+        background: linear-gradient(
+          45deg,
+          #1e293b,
+          #38bdf8
+        ); /* Blue gradient */
+        color: #e5e7eb;
+        font-family: "Poppins", sans-serif;
+        font-size: 2rem;
+        font-weight: bold;
+        border-radius: 8px;
+        margin: 20px auto;
+        max-width: 95%;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        letter-spacing: 1.5px;
+      }
+
+      /* Process Map Grid */
+      .process-map {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Two cards per row */
+        gap: 20px;
+        padding: 20px;
+      }
+
+      /* Bento Card Styling */
+      .bento-card {
+        background-color: #1e293b; /* Dark Blue-Black */
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        padding: 20px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 90%; /* Use percentage for responsiveness */
-        max-width: 400px; /* Max width ensures the content doesn't stretch too much on large screens */
-        padding: 20px;
-        border-radius: 10px;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%); /* Vertically center the content */
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Optional: Adds shadow for better visibility */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .bento-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      .bento-card h2 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #38bdf8; /* Sky Blue */
+        margin-bottom: 10px;
+      }
+
+      .sub-scenario h3 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.2rem;
+        color: #93c5fd; /* Light Blue */
+        margin-bottom: 8px;
+      }
+
+      .action h4 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1rem;
+        color: #e5e7eb;
+        margin-bottom: 5px;
+      }
+
+      .action ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .action li {
+        margin-bottom: 10px;
+      }
+
+      .action li strong {
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        color: #93c5fd; /* Light Blue */
+      }
+
+      .action li p {
+        font-family: "Lora", serif;
+        margin-top: 5px;
+        color: #e2e8f0; /* Light Gray Text */
+      }
+
+      /* Footer Styling */
+      footer {
         text-align: center;
+        padding: 20px;
+        background-color: #1e293b; /* Dark Blue */
+        font-family: "Poppins", sans-serif;
+        font-size: 0.9rem;
+        color: #e5e7eb;
       }
 
-      /* Form Elements */
-      form input,
-      form button {
-        margin-top: 10px;
-        padding: 10px;
+      /* Modal Styles */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .modal-content {
+        background-color: #2d3748;
+        color: #e5e7eb;
+        padding: 30px;
         width: 80%;
-        border: 1px solid #ccc;
-        border-radius: 5px;
+        max-width: 500px;
+        border-radius: 10px;
+
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
       }
 
-      form button {
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
+      .modal-content h3 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #38bdf8; /* Sky Blue */
+        margin-bottom: 20px;
+      }
+
+      .modal-content p {
+        font-family: "Poppins", sans-serif;
+        font-size: 1rem;
+        color: #e5e7eb;
+        margin-bottom: 15px;
+      }
+
+      .close-btn {
+        padding: 10px 20px;
         border: none;
+        background-color: #38bdf8;
+        color: #fff;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
       }
 
-      form button:hover {
-        background-color: #0056b3;
-      }
-
-      /* Mobile Responsiveness: Font size and padding adjustments */
-      @media (max-width: 600px) {
-        .content {
-          width: 90%; /* Ensure it takes up more space on small screens */
-          padding: 15px;
-        }
-
-        .content h2 {
-          font-size: 1.8rem; /* Smaller font size for mobile */
-        }
-
-        .content p {
-          font-size: 1rem; /* Smaller font size for mobile */
-        }
-
-        form input,
-        form button {
-          padding: 8px; /* Adjust button and input padding for small screens */
-          width: 100%; /* Ensure inputs and buttons are full-width */
-        }
-      }
-
-      /* Instagram link style */
-      a {
-        color: #007bff;
-        text-decoration: none;
-      }
-
-      a:hover {
-        text-decoration: underline;
+      .close-btn:hover {
+        background-color: #2563eb;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="content">
-        <h2>Pietradura</h2>
-        <p>
-          💎 Stay tuned for an exclusive journey into the world of marble craftsmanship. Launching soon...
-        </p>
-
-        <p>
-          Meanwhile connect with us on
-          <a href="https://www.instagram.com/pietra_dura_arts" target="_blank">Instagram</a>
-        </p>
+    <!-- Authentication Modal -->
+    <div id="authModal" class="auth-modal">
+      <div class="auth-content">
+        <h2>Authentication Required</h2>
+        <input type="text" id="authInput" placeholder="Enter passphrase" />
+        <button onclick="checkPassphrase()">Submit</button>
       </div>
     </div>
+
+    <!-- Main Content (Initially Hidden) -->
+    <div class="content">
+      <!-- Navbar -->
+      <header>
+        <nav class="navbar">
+          <div class="logo">Team GSK</div>
+          <ul class="nav-links">
+            <li><a href="7-series.html" class="nav-button">7 Series</a></li>
+            <li>
+              <a href="pms-creation.html" class="nav-button">PMS Creation</a>
+            </li>
+            <li><a href="tat.html" class="nav-button">TAT</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <!-- Heading Section -->
+      <div class="heading">How to Handle Noha and Family</div>
+
+      <!-- Main Content -->
+      <main class="process-map">
+        <!-- Bento Cards -->
+        <div class="bento-card">
+          <h2>Status: In Process</h2>
+          <div class="sub-scenario">
+            <h3>Sub-Scenario: The SO is still open</h3>
+            <div class="action">
+              <h4>Action</h4>
+              <ul>
+                <li>
+                  <strong>Within TAT:</strong>
+                  <p>
+                    Change to Release to WFM/send to vendor and adjust ETR date
+                    + 2 days.
+                  </p>
+                </li>
+                <li>
+                  <strong>Post TAT:</strong>
+                  <p>
+                    Change to Release to WFM/send to vendor and adjust ETR date
+                    + 2 days.
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <button class="script-btn" onclick="openModal('script1')">
+            Script
+          </button>
+        </div>
+
+        <div class="bento-card">
+          <h2>Status: Assign WIP</h2>
+          <div class="sub-scenario">
+            <h3>Sub-Scenario: The SO is still open</h3>
+            <div class="action">
+              <h4>Action</h4>
+              <ul>
+                <li>
+                  <strong>Within TAT:</strong>
+                  <p>Create interaction follow-up - Ask to wait for the TAT.</p>
+                </li>
+                <li>
+                  <strong>Post TAT:</strong>
+                  <p>Create digital complaint - Give ASAP TAT.</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <button class="script-btn" onclick="openModal('script2')">
+            Script
+          </button>
+        </div>
+
+        <!-- Add more cards as needed... -->
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <p>Made with ❤️ for the team by GSK</p>
+      </footer>
+    </div>
+
+    <!-- Modal Overlay for Script -->
+    <div id="scriptModal" class="modal-overlay">
+      <div class="modal-content">
+        <h3 id="modalTitle">Script</h3>
+        <div id="modalBody">
+          <!-- Dynamic content will be injected here -->
+        </div>
+        <button class="close-btn" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+
+    <!-- JavaScript to handle dynamic modal content and authentication -->
+    <script>
+      // Function to check if the session is still valid (i.e., 30 minutes)
+      function checkSession() {
+        const authTime = localStorage.getItem("authTime"); // Get the stored authentication time
+        const currentTime = new Date().getTime(); // Get the current time in milliseconds
+        const sessionValidity = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+        if (authTime && currentTime - authTime < sessionValidity) {
+          // If the session is valid, show the main content
+          document.getElementById("authModal").style.display = "none";
+          document.querySelector(".content").style.display = "block";
+        } else {
+          // If the session has expired, show the authentication modal
+          document.getElementById("authModal").style.display = "flex";
+          document.querySelector(".content").style.display = "none";
+        }
+      }
+
+      // Function to handle authentication when the user submits the passphrase
+      function checkPassphrase() {
+        const passphrase = document.getElementById("authInput").value;
+        const correctPassphrase = "I-LOVE-TEAM-GSK";
+
+        if (passphrase === correctPassphrase) {
+          // If the passphrase is correct, store the authentication time in localStorage
+          localStorage.setItem("authTime", new Date().getTime()); // Store the current timestamp
+          document.getElementById("authModal").style.display = "none"; // Hide authentication modal
+          document.querySelector(".content").style.display = "block"; // Show main content
+        } else {
+          alert("Incorrect passphrase. Please try again.");
+        }
+      }
+
+      // Function to open the modal with dynamic content for script
+      function openModal(scriptId) {
+        let scriptContent;
+        let modalTitle;
+
+        if (scriptId === "script1") {
+          modalTitle = "Script for Status: In Process";
+          scriptContent = `
+            <p><strong>Within TAT:</strong> Change to Release to WFM/send to vendor and adjust ETR date + 2 days.</p>
+            <p><strong>Post TAT:</strong> Change to Release to WFM/send to vendor and adjust ETR date + 2 days.</p>
+          `;
+        } else if (scriptId === "script2") {
+          modalTitle = "Script for Status: Assign WIP";
+          scriptContent = `
+            <p><strong>Within TAT:</strong> Create interaction follow-up - Ask to wait for the TAT.</p>
+            <p><strong>Post TAT:</strong> Create digital complaint - Give ASAP TAT.</p>
+          `;
+        }
+        // Add additional script cases for other cards similarly...
+
+        // Set modal title and content
+        document.getElementById("modalTitle").textContent = modalTitle;
+        document.getElementById("modalBody").innerHTML = scriptContent;
+
+        // Display the modal
+        document.getElementById("scriptModal").style.display = "flex";
+      }
+
+      // Function to close the modal
+      function closeModal() {
+        document.getElementById("scriptModal").style.display = "none"; // Hide the modal
+      }
+
+      // Call checkSession on page load to verify if the session is still valid
+      window.onload = function () {
+        checkSession();
+      };
+    </script>
   </body>
 </html>
